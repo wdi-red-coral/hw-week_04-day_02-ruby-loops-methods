@@ -68,10 +68,3 @@ stops_between_stations('Red', 'South Station', 'Green', 'Kenmore')
 ### Double Bonus
 
 Use `get` to allow the user to input their start line, start station, end line, and end station.
-
-### Triple Bonus
-
-Create a class for 
-- Station
-- Line
-- Subway

@@ -1,9 +1,3 @@
-class mbtarb
-attr_accessor= @name
-attr_accessor= @pasword
-
-
-
 Red = [ "South Station",
 "Park Street",
 "Kendall",
@@ -35,22 +29,34 @@ Orange = ["north station",
 ]
 
 
+
+def stops_between_stations(strtLoc, ss, endLoc, es)
+    p (endLoc.index(ss) - strtLoc.index(es)).abs
+end
+
+p  (Red.index("South Station") - Red.index("Alewife")).abs
+
+
+
+
+
+
+
+
 # p   Red.index("Porter")
 # p   Red.index("Davis")
 
 
-moudle 
-def stops_between_stations(strtLoc, ss, endLoc, es)
-if (strtLoc == "Red"  and endLoc=="Red")
-    p (Red.index(ss) - Red.index(es)).abs
-endLocs if (strtLoc == "Green" and endLoc == "Green")
-    p (Green.index(ss) - Green.index(es)).abs
-endLocs if (strtLoc == "Orange" and endLoc == "Orange")
-    p (Orange.index(ss) - Orange.index(es)).abs
-endLocs if ((strtLoc == "Red" and endLoc == "Green") or (strtLoc == "Green" and endLoc == "Red"))
-    p (Red.index(ss) - Green.index(es)).abs
-end
-end
+
+# def stops_between_stations(strtLoc, ss, endLoc, es)
+#     # if (strtLoc == endLoc)
+#         p (endLoc.index(ss) - strtLoc.index(es)).abs
+
+#     # else
+#     #            p (endLoc.index(ss) - strtLoc.index(es)).abs
+    
+#     # end
+# end
 
 
-# p  Red.index("South Station") - Red.index("Alewife")
+#  p  (Red.index("South Station") - Red.index("Alewife")).abs

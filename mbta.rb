@@ -1,143 +1,129 @@
-red_line = ["South Station", "Park Street", "Kendall", "Central", "Harvard", "Porter", "Davis", "Alewife"]
-green_line = ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes", "Kenmore"]
-orange_line = ["North Station", "Haymarket", "Park Street", "State", "Downtown Crossing", "Chinatown", "Back Bay", "Forest Hills"]
-
-stops_count = 0
-start_station = ""
-end_station = ""
-start_line = ""
-end_line = ""
-
-# calc stops at one line - one way
-
-# red
-stops_count = 0
-start_station = "South Station"
-end_station = "Harvard"
-red_line.each do |station| 
-    if station == start_station
-        for station in red_line 
-            if station == end_station
-            break
-            end 
-        stops_count += 1 
-        end 
-    end
-end
-p stops_count
-
-# loops in until it finds start station
-# increment
-# if end station found => stop increment/ end loop
-
-# calc stops at one line - two way
-# if based on index - each_with_index, find_index
-# if start station index < end station index => done
-# else => if start station index > end station index 
-# for loop starting from end staion , until start station is found 
-red_line.each_with_index do |station, index|
-    if red_line.index(start_station) < red_line.index(end_station)  
-        if station == start_station
-            for station in red_line 
-                if station == end_station
-                break
-                end 
-            stops_count += 1 
-            end 
-        end
-    else 
-        if station == end_station
-            for station in red_line 
-                if station == start_station
-                break
-                end 
-            stops_count += 1 
-            end 
-        end
-
-    end
-end
-p stops_count
-
-#################################################################################
-
-# for two lines 
-subway = [
-    { 
-        name: "Red"
-        stations: ["South Station", "Park Street", "Kendall", "Central", "Harvard", "Porter", "Davis", "Alewife"]
-    },
-    { 
-        name: "Green"
-        stations: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes", "Kenmore"]
-    },
-    { 
-        name: "Orange"
-        stations: ["North Station", "Haymarket", "Park Street", "State", "Downtown Crossing", "Chinatown", "Back Bay", "Forest Hills"]
-    }
-]
-stops_count = 0
-start_station = ""
-end_station = ""
-start_line = "Red"
-end_line = "Green"
-# for 2 lines -- one way
-# start station is not park street
-# end station is not park street
-# 1 if same line - two ways !!!
-if start_line == end_line
-    subway.each do |hash| # if hash[:name] == start line => enter 
-        if start_line.index(start_station) < end_line.index(end_station) # hash[:stations].index 
-            if station == start_station
-                for station in start_line
-                    if station == end_station
-                    break
+##### Two solutions
+############################# 1) My comlicated solution 
+def stops_between_stations (start_line, start_station, end_line, end_station)
+        subway = [
+        { name: "Red",
+            stations: ["South Station", "Park Street", "Kendall", "Central", "Harvard", "Porter", "Davis", "Alewife"] },
+                { name: "Green",
+            stations: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes", "Kenmore"] },
+                { name: "Orange",
+            stations: ["North Station", "Haymarket", "Park Street", "State", "Downtown Crossing", "Chinatown", "Back Bay", "Forest Hills"] }]
+        stops_count = 0
+        new_arr = []
+        if start_line == end_line ######## 1 
+        subway.each do |hash| 
+            if hash[:name] == start_line
+                hash[:stations].each_with_index do |station, index| # loop through the stations array
+                    if hash[:stations].index(start_station) < hash[:stations].index(end_station) 
+                        if station == start_station 
+                            for station in hash[:stations]
+                                if station == end_station
+                                break
+                                end
+                            stops_count += 1 
+                            end
+                        end
+                    else
+                        if station == end_station
+                            for station in hash[:stations] 
+                                if station == start_station
+                                break
+                                end 
+                            stops_count += 1 
+                            end 
+                        end
                     end
-                stops_count += 1 
-                end
-            end
-        else
-            if station == end_station
-                for station in red_line 
-                    if station == start_station
-                    break
-                    end 
-                stops_count += 1 
-                end 
-            end
+                end # end each_with index
+            end #  if hash name end 
+        end # each end 
+        end # end if 
+        
+        if start_line != end_line ####### 2 if different lines - one way !! not park street 
+            # stops from start station til park street
+            puts stops_count
+            if start_station == "Park Street" ### 1 
+                subway.each do |hash|
+                    if hash[:name] == end_line
+                        for station in hash[:name]
+                            if station == end_station
+                            break
+                            end 
+                            stops_count += 1
+                        end # for end 
+                        stops_count = stops_count - hash[:stations].index("Park Street") # hash[:stations].index(end_station) - hash[:stations].index("Park Street") # instead of for 
+                    end # end hash name = endline
+                end # each end  
+
+            elsif end_station == "Park Street" ### 2 ## end if start station == park street 
+                subway.each do |hash| 
+                    if hash[:name] == start_line
+                        stops_count = (hash[:stations].index(start_station) - hash[:stations].index("Park Street")).abs
+                    end
+                end # each end 
+            else # nither # end elsif end station == PS
+                
+                subway.each do |hash|
+                    if hash[:name] == start_line
+                        for station in hash[:stations]
+                            if station == "Park Street"
+                            break
+                            end
+                            new_arr.push(station)
+                        end # for end
+                    end # if hash end 
+                end # each end 
+                
+                subway.each do |hash|
+                    if hash[:name] == end_line
+                        for station in hash[:stations]
+                            new_arr.push(station)
+                        end # for end
+                        shift_times = 1 + hash[:stations].index("Park Street")
+                        shift_times.times { new_arr.shift } 
+                    end # if hash end 
+                end # each end 
+                stops_count = new_arr.length
+            end # else neither end
+            puts stops_count
+        end # big elsif end ## if endline != startline
+        # end 
+        if start_station == end_station
+            puts "There are 0 stops"
+        else 
+            puts "There are #{stops_count} stops"
         end
-    end # each end 
-elsif start_line != end_line # 2 if different lines - one way !! not park street 
-        # stops from start station til park street
-    for station in start_line
-        if station == "Park Street"
-        break
-        end
-    stops_count += 1 
-    end
-    # stops from "park street" til end station
-    for station in end_line
-        if station == end_station
-        break
-        end
-    stops_count += 1
-    end
-    stops_count -= end_line.index("Park Street")
+end # end method 
 
-end # elsif != end 
- p stops_count
- 
- #################################################################################
+stops_between_stations('Red', 'Alewife', 'Red', 'Alewife') # 0 
+stops_between_stations('Red', 'Alewife', 'Red', 'South Station') # 7
+stops_between_stations('Red', 'South Station', 'Green', 'Kenmore') # 6
+
+################################################## solution 1 completed 
 
 
+######################### 2) same as my js solution 
+def stops_between_stations (start_line, start_station, end_line, end_station)
+    subway = {
+        Red: ["South Station", "Park Street", "Kendall", "Central", "Harvard", "Porter", "Davis", "Alewife"],
+        Green: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes", "Kenmore"],
+        Orange: ["North Station", "Haymarket", "Park Street", "State", "Downtown Crossing", "Chinatown", "Back Bay", "Forest Hills"]
+    }
+    stops_count = 0
+    if (start_line == end_line)
+        stops_count = (subway[start_line.to_sym].index(end_station) - subway[start_line.to_sym].index(start_station)).abs
+    else # if same line end ## if different lines
+        if start_station == "Park Street"
+            stops_count = (subway[end_line.to_sym].index(end_station) - subway[end_line.to_sym].index("Park Street")).abs
+        elsif end_station == "Park street" # if start at PS end
+            stops_count = (subway[start_line.to_sym].index("Park Street") - subway[start_line.to_sym].index(start_station)).abs
+        else # if endstation at PS end # nither start or end at PS
+            stops_count = (subway[start_line.to_sym].index(start_station) - subway[start_line.to_sym].index("Park Street")).abs + (subway[end_line.to_sym].index("Park Street") - subway[end_line.to_sym].index(end_station)).abs
+        end # nither 'else' end
+    end # main else end
 
-subway.each do |hash|
-    if start_line == "Red"
-        #loop through the array aka key stations
-        #startup count til it reaches park street 
-    elsif start_line == "Green"
-    elsif start_line == "Orange"
-    end
-end 
+    puts "There's #{stops_count} stops till end station"
+end # method end
 
-# for two lines - two way
+stops_between_stations('Red', 'Alewife', 'Red', 'Alewife') # 0 
+stops_between_stations('Red', 'Alewife', 'Red', 'South Station') # 7
+stops_between_stations('Red', 'South Station', 'Green', 'Kenmore') # 6

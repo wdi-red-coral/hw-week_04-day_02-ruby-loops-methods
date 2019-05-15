@@ -63,8 +63,6 @@ stops_between_stations('Red', 'South Station', 'Green', 'Kenmore')
 # "Your trip continues through the following stops on Green Line:" 
 # "Boylston, Arlington, Copley, Hines, and Kenmore."
 # "7 stops in total."
-```
-
-### Double Bonus
+# Double Bonus
 
 Use `get` to allow the user to input their start line, start station, end line, and end station.

@@ -35,8 +35,8 @@ Orange = ["north station",
 ]
 
 
-# p   RedLINE.index("Porter")
-# p   RedLINE.index("Davis")
+# p   Red.index("Porter")
+# p   Red.index("Davis")
 
 
 moudle 
@@ -53,4 +53,4 @@ end
 end
 
 
-# p  RedLINE.index("South Station") - RedLINE.index("back bay")
+# p  Red.index("South Station") - Red.index("Alewife")

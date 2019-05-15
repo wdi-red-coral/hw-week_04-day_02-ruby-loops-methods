@@ -1,6 +1,6 @@
-class mbtarb
-attr_accessor= @name
-attr_accessor= @pasword
+# class mbtarb
+# attr_accessor= @name
+# attr_accessor= @pasword
 
 
 
